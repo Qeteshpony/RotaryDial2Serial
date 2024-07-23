@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Qeteshpony/RotaryDial2Serial/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Qeteshpony/RotaryDial2Serial/actions/workflows/ci.yml)
 
-![3D Render](https://qeteshpony.github.io/RotaryDial2Serial/3D/MainsFrequencyMonitor-3D_top.png)
+![3D Render](https://qeteshpony.github.io/RotaryDial2Serial/3D/RotaryDial2Serial-3D_top.png)
 
 [Hardware Documentation](https://qeteshpony.github.io/RotaryDial2Serial)
 
