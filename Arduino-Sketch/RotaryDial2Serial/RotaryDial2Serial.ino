@@ -11,8 +11,8 @@ SoftwareSerial mySerial(RX, TX);
 
 int count = 0;  // counter for the dial clicks
 
-long int lastclick;  // millis() value for last dial click
-long int lasthook;  // millis() value for last hook change
+unsigned long lastclick;  // millis() value for last dial click
+unsigned long lasthook;  // millis() value for last hook change
 bool hookpos;  // current hook position
 
 void dial() {
