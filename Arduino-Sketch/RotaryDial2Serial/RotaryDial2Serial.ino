@@ -28,6 +28,7 @@ void setup() {
   pinMode(TX, OUTPUT);
   pinMode(DIAL, INPUT);
   pinMode(HOOK, INPUT);
+  pinMode(LED, OUTPUT);
 
   // attach int0 (PB2) and use dial() as the callback on a falling edge
   attachInterrupt(0, dial, FALLING);
