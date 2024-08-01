@@ -49,11 +49,12 @@ void loop() {
   }
 
   // when the hook changed and the last change was more than 50 ms ago
-  if (lasthook + 50 < millis() && digitalRead(HOOK) != hookpos) {
+  bool newhookpos = digitalRead(HOOK);
+  if (lasthook + 50 < millis() && newhookpos != hookpos) {
     // store time of this hookchange for debouncing
     lasthook = millis();
     // update the hookpos
-    hookpos = digitalRead(HOOK);
+    hookpos = newhookpos;
     // send new hookpos to serial
     if (hookpos == 0) mySerial.print("u");
     else mySerial.print("d");
