@@ -14,13 +14,7 @@ int count = 0;  // counter for the dial clicks
 unsigned long lastclick;  // millis() value for last dial click
 unsigned long lasthook;  // millis() value for last hook change
 bool hookpos;  // current hook position
-
-void dial() {
-  // gets invoked by interrupt every time the dial clicks
-  // check if the last click is more than 10 ms ago for debouncing the switch, if so: count it
-  if (lastclick + 10 < millis()) count++;
-  lastclick = millis();
-}
+bool clicker;  // current clicker position
 
 void setup() {
   // initialize pins
@@ -30,21 +24,26 @@ void setup() {
   pinMode(HOOK, INPUT);
   pinMode(LED, OUTPUT);
 
-  // attach int0 (PB2) and use dial() as the callback on a falling edge
-  attachInterrupt(0, dial, FALLING);
-
   // initialize software serial
   mySerial.begin(115200);  
 }
 
 void loop() {
+  // when the rotary dial sends a click, register it, count it and set the timer for debouncing
+  if (digitalRead(DIAL) == 1 && clicker == 0) {
+    clicker = 1;
+    lastclick = millis();
+    count++;
+  }
+
+  // reset the clicker after the debounce timer is up
+  if (digitalRead(DIAL) == 0 && lastclick + 80 < millis()) clicker = 0;
+
   // when there were clicks counted and the last click was more than 200ms ago
   if (count > 0 && lastclick + 200 < millis()) {
-    // check if the hook is up. If so divide the clicks by two to get the dialed number 
-    // and send it to the serial connection
-    // we round the number because sometimes a click doesnt get through on old dials
-    // after that we take the remainder of a division by 10 to turn 10 into 0
-    if (hookpos == 0) mySerial.print(int(float(count) / 2 + 0.5) % 10);
+    // check if the hook is up. If so, we take the remainder of a division by 10
+    // to turn 10 into 0 and send it to the serial connection
+    if (hookpos == 0) mySerial.print(count % 10);
     // reset the click counter
     count = 0;
   }
